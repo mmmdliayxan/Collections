@@ -26,11 +26,10 @@ public class Main {
 
         String text = "Salam";
         System.out.println(reverseString(text));
-
-
     }
 
-    static void listMethodsAndParameters(Class<?> classReflection) {
+    static <T> void listMethodsAndParameters(T obj) {
+        Class<?> classReflection =obj.getClass();
         Arrays.stream(classReflection.getDeclaredMethods())
                 .forEach(method -> {
                     System.out.println(method.getName());
@@ -42,16 +41,30 @@ public class Main {
         List<String> list = new ArrayList<>(List.of("red", "blue", "green", "black"));
         String targetColor = "blue";
         int index = list.indexOf(targetColor);
-        list.set(index, "brown");
+        if(index!=-1) {
+            list.set(index, "brown");
+        }
         System.out.println(list);
     }
 
     static List<String> listDuplicateUsingSet(List<String> list) {
-        Set<String> set = new HashSet<>();
+        //Set<String> set = new HashSet<>();
+        Map<String,Integer> map = new HashMap<>();
         List<String> newList = new ArrayList<>();
         for (String value : list) {
-            if (!set.add(value)) {
+           /* if (!set.add(value)) {
                 newList.add(value);
+            }*/
+            if(!map.containsKey(value)){
+                map.put(value,1);
+            }
+            else{
+                map.put(value,map.get(value)+1);
+            }
+        }
+        for(String key : map.keySet()){
+            if(map.get(key)>1){
+                newList.add(key);
             }
         }
         return newList;
